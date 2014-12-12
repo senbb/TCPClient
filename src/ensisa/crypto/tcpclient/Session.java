@@ -1,8 +1,11 @@
 package ensisa.crypto.tcpclient;
 
 import ensisa.crypto.tcpcommon.FileHelper;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,8 +23,8 @@ class Session {
     {
         try
         {
-            Writer writer = new Writer(connection.getOutputStream());
-            writer.getList();
+            ClientWriter writer = new ClientWriter(connection.getOutputStream());
+            writer.createGetList();
             writer.send();
             Reader reader = new Reader(connection.getInputStream());
             reader.receive();
@@ -35,11 +38,17 @@ class Session {
     
     public FileHelper getFile(String filename)
     {
-        Writer writer = new Writer(connection.getOutputStream());
-        writer.getFile(filename);
-        writer.send();
-        Reader reader = new Reader(connection.getInputStream());
-        reader.receive();
-        return reader.getFile();
+        ClientWriter writer;
+        try {
+            writer = new ClientWriter(connection.getOutputStream());
+            writer.createGetFile(filename);
+            writer.send();
+            Reader reader = new Reader(connection.getInputStream());
+            reader.receive();
+            return reader.getFile();
+        } catch (IOException ex) {
+            Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }

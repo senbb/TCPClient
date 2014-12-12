@@ -4,14 +4,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import ensisa.crypto.tcpcommon.PROTOCOL;
 
-public class Writer {
+public class ClientWriter {
 
 	private OutputStream outputStream;
 	private ByteArrayOutputStream baos = new ByteArrayOutputStream ();
 	private DataOutputStream output = new DataOutputStream (baos);
+    private Object PROTOCOL;
 	
-	public Writer(OutputStream outputStream) {
+	public ClientWriter(OutputStream outputStream) {
 		this.outputStream = outputStream;
 	}
 
@@ -46,11 +48,11 @@ public class Writer {
 	}
 
 	public void createGetList() {
-		writeInt(Protocol.GET_FILE_LIST);
+		writeInt(ensisa.crypto.tcpcommon.PROTOCOL.GET_FILE);
 	}
 	
 	public void createGetFile(String fileName) {
-		writeInt(Protocol.GET_FILE_LIST);
+		writeInt(ensisa.crypto.tcpcommon.PROTOCOL.GET_FILE);
 		writeUTF(fileName);
 	}
 

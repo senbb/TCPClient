@@ -1,6 +1,7 @@
 package ensisa.crypto.tcpclient;
 
 import ensisa.crypto.tcpcommon.FileHelper;
+import ensisa.crypto.tcpcommon.PROTOCOL;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -110,13 +111,13 @@ public class Reader {
     
     public void receive()
     {
-        text = readUTF();
+        type = readInt();
         switch(type)
         {
-            case 1:
+            case PROTOCOL.GET_FILE:
                 fillFilenames(readInt());
                 break;
-            case 2:
+            case PROTOCOL.GET_FILE_LIST:
                 readFile();
                 break;
         }
