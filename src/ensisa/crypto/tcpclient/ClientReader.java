@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author sebastien
  */
-public class Reader {
+public class ClientReader {
     
     private DataInputStream inputStream;
     private List<String> filenames;
@@ -24,7 +24,7 @@ public class Reader {
     private int type;
     private FileHelper file;
     
-    public Reader(InputStream inputStream)
+    public ClientReader(InputStream inputStream)
     {
         this.inputStream = new DataInputStream(inputStream);
     }
@@ -34,7 +34,7 @@ public class Reader {
         try {
             return inputStream.readInt();
         } catch (IOException ex) {
-            Logger.getLogger(Reader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientReader.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
@@ -44,7 +44,7 @@ public class Reader {
         try {
             return inputStream.readLong();
         } catch (IOException ex) {
-            Logger.getLogger(Reader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientReader.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
@@ -58,7 +58,7 @@ public class Reader {
         try {
             return inputStream.readUTF();
         } catch (IOException ex) {
-            Logger.getLogger(Reader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientReader.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         }
     }
@@ -80,7 +80,7 @@ public class Reader {
         try {
             return inputStream.readByte();
         } catch (IOException ex) {
-            Logger.getLogger(Reader.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientReader.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
@@ -97,7 +97,8 @@ public class Reader {
     
     private void readFile()
     {
-        file = new FileHelper(readUTF(), readUTF(), readContent(readInt()));
+        int length = readInt();
+        file = new FileHelper(readContent(length), readUTF());
     }
     
     private void fillContent(int count)
@@ -111,16 +112,17 @@ public class Reader {
     
     public void receive()
     {
-        type = readInt();
-        switch(type)
+        System.out.println(readUTF());
+        /*type = readInt();
+        /*switch(type)
         {
-            case PROTOCOL.GET_FILE:
+            case PROTOCOL.SEND_FILE_LIST:
                 fillFilenames(readInt());
                 break;
-            case PROTOCOL.GET_FILE_LIST:
+            case PROTOCOL.SEND_FILE:
                 readFile();
                 break;
-        }
+        }*/
     }
     
     public String getText()

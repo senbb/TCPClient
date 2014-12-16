@@ -11,7 +11,6 @@ public class ClientWriter {
 	private OutputStream outputStream;
 	private ByteArrayOutputStream baos = new ByteArrayOutputStream ();
 	private DataOutputStream output = new DataOutputStream (baos);
-    private Object PROTOCOL;
 	
 	public ClientWriter(OutputStream outputStream) {
 		this.outputStream = outputStream;
